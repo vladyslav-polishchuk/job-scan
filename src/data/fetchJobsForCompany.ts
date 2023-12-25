@@ -1,4 +1,4 @@
-import { type Job } from './companies';
+import type { Job } from './types';
 
 export const fetchJobsForCompany = async (company: any) => {
   const response = await fetch(company.jobsFetchUrl, {
@@ -7,8 +7,6 @@ export const fetchJobsForCompany = async (company: any) => {
     },
   });
   const json = await response.json();
-
-  console.log(json);
 
   return company.getJobsFromResponse(json) as Job[];
 };

@@ -1,18 +1,6 @@
-export interface Company {
-  name: string;
-  jobsFetchUrl: string;
-}
+import type { Company, Job } from './types';
 
-export interface Job {
-  id: string;
-  company: string;
-  title: string;
-  date: string;
-  location: string;
-  description: string;
-}
-
-export const companies = [
+export const companies: Company[] = [
   {
     name: 'Microsoft',
     jobsFetchUrl:
@@ -22,7 +10,20 @@ export const companies = [
       const { result } = operationResult;
       const { jobs } = result;
 
-      return jobs;
+      // console.log(jobs);
+
+      return jobs.map((job: Record<string, unknown>) => {
+        const props = job.properties as Record<string, unknown>;
+
+        return {
+          id: job.jobId,
+          title: job.title,
+          description: props.description ?? '',
+          date: job.postingDate,
+          location: props.primaryLocation,
+          company: 'Microsoft',
+        };
+      });
     },
   },
 ];
